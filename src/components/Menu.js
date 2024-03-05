@@ -1,19 +1,20 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class Menu extends Component {
-	render() {       
+	render() {
 		return (
 			<div>
 				<aside className="main-sidebar sidebar-dark-primary elevation-4">
-					<a href="index3.html" className="brand-link">
+					<Link to="/admindashboard" className="brand-link">
 						<img
 							src="dist/img/AdminLTELogo.png"
 							alt="AdminLTE Logo"
 							className="brand-image img-circle elevation-3"
 							style={{ opacity: "0.8" }}
 						/>
-                        <span className="brand-text font-weight-light">Minzo</span>
-					</a>
+						<span className="brand-text font-weight-light">Minzo</span>
+					</Link>
 					<div className="sidebar">
 						{/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
 							<div className="image">
@@ -332,43 +333,40 @@ export default class Menu extends Component {
 								</li> */}
 
 								<li className="nav-item">
-									<a href="pages/leads.html" className="nav-link">
+									<Link to="/leads" className="nav-link">
 										<i className="nav-icon fas fa-user-alt" />
-										<p>
-											Leads
-											{/* <span className="badge badge-info right">150</span> */}
-										</p>
-									</a>
+										<p>Leads</p>
+									</Link>
 								</li>
-                                <li className="nav-item">
-									<a href="pages/customers.html" className="nav-link">
+								<li className="nav-item">
+									<Link to="/customers" className="nav-link">
 										<i className="nav-icon fas fa-users" />
 										<p>
 											Customers
 											{/* <span className="badge badge-info right">150</span> */}
 										</p>
-									</a>
+									</Link>
 								</li>
-                                <li className="nav-item">
-									<a href="pages/drivers.html" className="nav-link">
+								<li className="nav-item">
+									<Link to="/drivers" className="nav-link">
 										<i className="nav-icon fas fa-truck-moving" />
 										<p>
 											Drivers
 											{/* <span className="badge badge-info right">100</span> */}
 										</p>
-									</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a href="pages/slotmaster.html" className="nav-link">
+									<Link to="/slotmaster" className="nav-link">
 										<i className="nav-icon fas fa-edit" />
 										<p>Slot Master</p>
-									</a>
+									</Link>
 								</li>
 								<li className="nav-item">
-									<a href="pages/orders.html" className="nav-link">
+									<Link to="/orders" className="nav-link">
 										<i className="nav-icon fas fa-stamp	" />
 										<p>Orders</p>
-									</a>
+									</Link>
 								</li>
 								{/* <li className="nav-item">
 									<a href="#" className="nav-link">
