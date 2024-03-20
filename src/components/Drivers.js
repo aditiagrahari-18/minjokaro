@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from "react";
 import CommonLayOut from "./CommonLayOut";
+import GenericTable from "../Table/GenericTable";
+import { Col, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 class Drivers extends Component {
 	constructor(props) {
@@ -21,6 +24,44 @@ class Drivers extends Component {
 	componentWillUnmount() {}
 
 	render() {
+		const tableData = [
+			{
+				id: 1,
+				name: "Anne",
+				email: "anne@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 2,
+				name: "Julie",
+				email: "julie@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 3,
+				name: "Jhon",
+				email: "jhon@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 4,
+				name: "Sheetal",
+				email: "sheetal@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 5,
+				name: "Brush",
+				email: "brush@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 6,
+				name: "Alisha",
+				email: "alisha@gmail.com",
+				contact_number: "0898988989",
+			},
+		];
 		return (
 			<div>
 				<CommonLayOut
@@ -39,205 +80,36 @@ class Drivers extends Component {
 								<div className="container-fluid">
 									<div className="row">
 										<div className="col-12">
-											<div className="card">
+											<div className="card card-info">
 												<div className="card-header">
 													<h3 className="card-title">Drivers</h3>
 													<div className="card-tools">
-														<div
-															className="input-group input-group-sm"
-															style={{ width: 150 }}
-														>
-															<input
-																type="text"
-																name="table_search"
-																className="form-control float-right"
-																placeholder="Search"
-															/>
-															<div className="input-group-append">
-																<button
-																	type="submit"
-																	className="btn btn-default"
+														<div className="row" style={{ marginRight: 10 }}>
+															<div className="col-10">
+																<Link
+																	type="button"
+																	className="btn btn-danger btn-sm"
+																	to="/addnewdriver"
 																>
-																	<i className="fas fa-search" />
+																	<span className="blacktext">Add Driver</span>
+																</Link>
+															</div>
+															<div className="col-2">
+																<button
+																	type="button"
+																	className="btn btn-tool"
+																	data-card-widget="collapse"
+																>
+																	<i className="fas fa-minus" />
 																</button>
 															</div>
 														</div>
 													</div>
 												</div>
 												<div className="card-body table-responsive p-0">
-													<table className="table table-hover text-nowrap">
-														<thead>
-															<tr>
-																<th>ID</th>
-																<th>User</th>
-																<th>Date</th>
-																<th>Status</th>
-																<th>Reason</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-														</tbody>
-													</table>
+													<GenericTable tableData={tableData} dataFor="Drivers">
+														{" "}
+													</GenericTable>
 												</div>
 											</div>
 										</div>

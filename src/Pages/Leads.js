@@ -55,7 +55,7 @@ class Leads extends Component {
 				email: "alisha@gmail.com",
 				contact_number: "0898988989",
 			},
-		];	
+		];
 		const drivers = [
 			{
 				id: 1,
@@ -93,46 +93,39 @@ class Leads extends Component {
 				email: "email@gmail.com",
 				contact_number: "0898988989",
 			},
-		];		
+		];
 		return (
 			<div>
 				<CommonLayOut
 					body={
 						<div className="content-wrapper">
-							<div className="content-header">
-								
-							</div>
+							<div className="content-header"></div>
 							<section className="content">
 								<div className="container-fluid">
 									<div className="row">
 										<div className="col-12">
-											<div className="card">
+											<div className="card card-info">
 												<div className="card-header">
-													<h3 className="card-title">New Leads: <span className="badge badge-info right">4</span></h3>
+													<h3 className="card-title">
+														New Leads:{" "}
+														<span className="badge badge-info right">4</span>
+													</h3>
 													<div className="card-tools">
-														<div
-															className="input-group input-group-sm"
-															style={{ width: 150 }}
+														<button
+															type="button"
+															className="btn btn-tool"
+															data-card-widget="collapse"
 														>
-															<input
-																type="text"
-																name="table_search"
-																className="form-control float-right"
-																placeholder="Search"
-															/>
-															<div className="input-group-append">
-																<button
-																	type="submit"
-																	className="btn btn-default"
-																>
-																	<i className="fas fa-search" />
-																</button>
-															</div>
-														</div>
+															<i className="fas fa-minus" />
+														</button>
 													</div>
 												</div>
 												<div className="card-body table-responsive p-0">
-													<GenericTable tableData={tableData} dataFor="Leads" drivers={drivers} />
+													<GenericTable
+														tableData={tableData}
+														dataFor="Leads"
+														drivers={drivers}
+													/>
 													{/* <div className="card-footer clearfix">
 														<ul className="pagination pagination-sm m-0 float-right">
 															<li className="page-item">
@@ -169,7 +162,7 @@ class Leads extends Component {
 								</div>
 							</section>
 						</div>
-					}					
+					}
 				/>
 			</div>
 		);

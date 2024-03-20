@@ -30,8 +30,9 @@ export default class GenericTable extends Component {
 	};
 
 	render() {
-		const { tableData, drivers } = this.props;
+		const { tableData, drivers, dataFor } = this.props;
 		const { isOpen, notify } = this.state;
+		console.log('Generic Table Props', this.props);
 		return (
 			<div>
 				{notify && (
@@ -63,14 +64,14 @@ export default class GenericTable extends Component {
 								<td>{item.name}</td>
 								<td>{item.email}</td>
 								<td>{item.contact_number}</td>
-								<td>
+								{dataFor === 'Leads' && <td>
 									<button
-										className="btn btn-primary"
+										className="btn btn-info"
 										onClick={this.togglePopup}
 									>
 										Assign
 									</button>
-								</td>
+								</td>}
 							</tr>
 						))}
 					</tbody>

@@ -79,3 +79,11 @@
   align-items: center;
   background-color: white;
 }
+
+.blacktext{
+  color: white;
+  font-weight: bold;
+}
+.danger{
+  color:crimson;
+}
