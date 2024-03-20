@@ -32,7 +32,7 @@ export default class AdminDashboard extends Component {
 										<div className="col-lg-2 col-6">
 											<div className="small-box bg-info">
 												<div className="inner">
-													<h3>150</h3>
+													<h3>06</h3>
 													<p>Leads</p>
 												</div>
 												<div className="icon">

@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 export default class Menu extends Component {
 	render() {
+		console.log('Menu Props', this.props);
+		const newLeads = 4
 		return (
 			<div>
 				<aside className="main-sidebar sidebar-dark-primary elevation-4">
@@ -336,6 +338,7 @@ export default class Menu extends Component {
 									<Link to="/leads" className="nav-link">
 										<i className="nav-icon fas fa-user-alt" />
 										<p>Leads</p>
+										<span className="badge badge-info right">{newLeads ? newLeads : 4}</span>
 									</Link>
 								</li>
 								<li className="nav-item">

@@ -1,39 +1,106 @@
 import React, { Component, PropTypes } from "react";
 import CommonLayOut from "../components/CommonLayOut";
+import Pagination from "./Pagination";
+import GenericTable from "../Table/GenericTable";
 
 class Leads extends Component {
 	constructor(props) {
 		super(props);
+		this.state = {
+			// tableData: null,
+		};
 	}
 
 	componentWillMount() {}
 
-	componentDidMount() {}
-
 	componentWillReceiveProps(nextProps) {}
-
-	shouldComponentUpdate(nextProps, nextState) {}
-
-	componentWillUpdate(nextProps, nextState) {}
-
-	componentDidUpdate(prevProps, prevState) {}
 
 	componentWillUnmount() {}
 
 	render() {
+		const tableData = [
+			{
+				id: 1,
+				name: "Anne",
+				email: "anne@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 2,
+				name: "Julie",
+				email: "julie@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 3,
+				name: "Jhon",
+				email: "jhon@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 4,
+				name: "Sheetal",
+				email: "sheetal@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 5,
+				name: "Brush",
+				email: "brush@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 6,
+				name: "Alisha",
+				email: "alisha@gmail.com",
+				contact_number: "0898988989",
+			},
+		];	
+		const drivers = [
+			{
+				id: 1,
+				name: "Ashish",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 2,
+				name: "Nilesh",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 3,
+				name: "Suhaan",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 4,
+				name: "Yogesh",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 5,
+				name: "Rihit",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+			{
+				id: 6,
+				name: "Anubhav",
+				email: "email@gmail.com",
+				contact_number: "0898988989",
+			},
+		];		
 		return (
 			<div>
 				<CommonLayOut
 					body={
 						<div className="content-wrapper">
 							<div className="content-header">
-								{/* <div className="container-fluid">
-									<div className="row mb-2">
-										<div className="col-sm-6">
-											<h1 className="m-0">List Of Leads</h1>
-										</div>
-									</div>
-								</div> */}
+								
 							</div>
 							<section className="content">
 								<div className="container-fluid">
@@ -41,7 +108,7 @@ class Leads extends Component {
 										<div className="col-12">
 											<div className="card">
 												<div className="card-header">
-													<h3 className="card-title">Leads</h3>
+													<h3 className="card-title">New Leads: <span className="badge badge-info right">4</span></h3>
 													<div className="card-tools">
 														<div
 															className="input-group input-group-sm"
@@ -65,289 +132,36 @@ class Leads extends Component {
 													</div>
 												</div>
 												<div className="card-body table-responsive p-0">
-													<table className="table table-hover text-nowrap">
-														<thead>
-															<tr>
-																<th>ID</th>
-																<th>User</th>
-																<th>Date</th>
-																<th>Status</th>
-																<th>Reason</th>
-															</tr>
-														</thead>
-														<tbody>
-															<tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-                                                            <tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-                                                            <tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-                                                            <tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-                                                            <tr>
-																<td>183</td>
-																<td>John Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-success">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>219</td>
-																<td>Alexander Pierce</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-warning">
-																		Pending
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>657</td>
-																<td>Bob Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-primary">
-																		Approved
-																	</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-															<tr>
-																<td>175</td>
-																<td>Mike Doe</td>
-																<td>11-7-2014</td>
-																<td>
-																	<span className="tag tag-danger">Denied</span>
-																</td>
-																<td>
-																	Bacon ipsum dolor sit amet salami venison
-																	chicken flank fatback doner.
-																</td>
-															</tr>
-														</tbody>
-													</table>
+													<GenericTable tableData={tableData} dataFor="Leads" drivers={drivers} />
+													{/* <div className="card-footer clearfix">
+														<ul className="pagination pagination-sm m-0 float-right">
+															<li className="page-item">
+																<a className="page-link" href="#">
+																	«
+																</a>
+															</li>
+															<li className="page-item">
+																<a className="page-link" href="#">
+																	1
+																</a>
+															</li>
+															<li className="page-item">
+																<a className="page-link" href="#">
+																	2
+																</a>
+															</li>
+															<li className="page-item">
+																<a className="page-link" href="#">
+																	3
+																</a>
+															</li>
+															<li className="page-item">
+																<a className="page-link" href="#">
+																	»
+																</a>
+															</li>
+														</ul>
+													</div> */}
 												</div>
 											</div>
 										</div>
@@ -355,8 +169,8 @@ class Leads extends Component {
 								</div>
 							</section>
 						</div>
-					}
-				/>       
+					}					
+				/>
 			</div>
 		);
 	}
