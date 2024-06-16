@@ -2,23 +2,21 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
 export default class Menu extends Component {
-	render() {
-		console.log('Menu Props', this.props);
-		const newLeads = 4
-		return (
-			<div>
-				<aside className="main-sidebar sidebar-dark-primary elevation-4">
-					<Link to="/admindashboard" className="brand-link">
-						<img
-							src="dist/img/AdminLTELogo.png"
-							alt="AdminLTE Logo"
-							className="brand-image img-circle elevation-3"
-							style={{ opacity: "0.8" }}
-						/>
-						<span className="brand-text font-weight-light">Minzo</span>
-					</Link>
-					<div className="sidebar">
-						{/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
+  render() {
+    return (
+      <div>
+        <aside className="main-sidebar sidebar-dark-primary elevation-4">
+          <Link to="/admindashboard" className="brand-link">
+            <img
+              src="dist/img/AdminLTELogo.png"
+              alt="AdminLTE Logo"
+              className="brand-image img-circle elevation-3"
+              style={{ opacity: "0.8" }}
+            />
+            <span className="brand-text font-weight-light">Minzo</span>
+          </Link>
+          <div className="sidebar">
+            {/* <div className="user-panel mt-3 pb-3 mb-3 d-flex">
 							<div className="image">
 								<img
 									src="dist/img/user2-160x160.jpg"
@@ -47,14 +45,14 @@ export default class Menu extends Component {
 								</div>
 							</div>
 						</div> */}
-						<nav className="mt-2">
-							<ul
-								className="nav nav-pills nav-sidebar flex-column"
-								data-widget="treeview"
-								role="menu"
-								data-accordion="false"
-							>
-								{/* <li className="nav-item menu-open">
+            <nav className="mt-2">
+              <ul
+                className="nav nav-pills nav-sidebar flex-column"
+                data-widget="treeview"
+                role="menu"
+                data-accordion="false"
+              >
+                {/* <li className="nav-item menu-open">
 									<a href="#" className="nav-link active">
 										<i className="nav-icon fas fa-tachometer-alt" />
 										<p>
@@ -334,44 +332,44 @@ export default class Menu extends Component {
 									</ul>
 								</li> */}
 
-								<li className="nav-item">
-									<Link to="/leads" className="nav-link">
-										<i className="nav-icon fas fa-user-alt" />
-										<p>Leads</p>
-										<span className="badge badge-info right">{newLeads ? newLeads : 4}</span>
-									</Link>
-								</li>
-								<li className="nav-item">
-									<Link to="/customers" className="nav-link">
-										<i className="nav-icon fas fa-users" />
-										<p>
-											Customers
-											{/* <span className="badge badge-info right">150</span> */}
-										</p>
-									</Link>
-								</li>
-								<li className="nav-item">
-									<Link to="/drivers" className="nav-link">
-										<i className="nav-icon fas fa-truck-moving" />
-										<p>
-											Drivers
-											{/* <span className="badge badge-info right">100</span> */}
-										</p>
-									</Link>
-								</li>
-								<li className="nav-item">
-									<Link to="/slotmaster" className="nav-link">
-										<i className="nav-icon fas fa-edit" />
-										<p>Slot Master</p>
-									</Link>
-								</li>
-								<li className="nav-item">
-									<Link to="/orders" className="nav-link">
-										<i className="nav-icon fas fa-stamp	" />
-										<p>Orders</p>
-									</Link>
-								</li>
-								{/* <li className="nav-item">
+                <li className="nav-item">
+                  <Link to="/leads" className="nav-link">
+                    <i className="nav-icon fas fa-user-alt" />
+                    <p>Leads</p>
+                    {/* <span className="badge badge-info right">{newLeads ? newLeads : 4}</span> */}
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/customers" className="nav-link">
+                    <i className="nav-icon fas fa-users" />
+                    <p>
+                      Customers
+                      {/* <span className="badge badge-info right">150</span> */}
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/drivers" className="nav-link">
+                    <i className="nav-icon fas fa-truck-moving" />
+                    <p>
+                      Drivers
+                      {/* <span className="badge badge-info right">100</span> */}
+                    </p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/slotmaster" className="nav-link">
+                    <i className="nav-icon fas fa-edit" />
+                    <p>Slot Master</p>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link to="/orders" className="nav-link">
+                    <i className="nav-icon fas fa-stamp	" />
+                    <p>Orders</p>
+                  </Link>
+                </li>
+                {/* <li className="nav-item">
 									<a href="#" className="nav-link">
 										<i className="nav-icon far fa-envelope" />
 										<p>
@@ -783,11 +781,11 @@ export default class Menu extends Component {
 										<p>Informational</p>
 									</a>
 								</li> */}
-							</ul>
-						</nav>
-					</div>
-				</aside>
-			</div>
-		);
-	}
+              </ul>
+            </nav>
+          </div>
+        </aside>
+      </div>
+    );
+  }
 }
