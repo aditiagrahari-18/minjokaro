@@ -10,22 +10,31 @@ export default class GenericTable extends Component {
       isOpen: false,
       notify: false,
       value: null,
-	  driverList: null,
+      leadDetails: null,
+      driverList: null,
     };
   }
-  componentWillMount() {
-	fetch(
-		"api/Admin/GetWashermanList"
-	)
-		.then((response) => response.json())
-		.then((json) => {
-			this.setState({ driverList: json });
-		});
-}
+
+  componentDidMount() {
+    const { leadDetails } = this.state;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        washerman_id: 0,
+        lead_id: leadDetails && leadDetails.lead_id,
+      }),
+    };
+    fetch("api/Admin/GetUnassignedWaherman", requestOptions)
+      .then((response) => response.json())
+      .then((data) => this.setState({ driverList: data }));
+  }
+
   togglePopup = (item) => {
     console.log("togglePopup", item);
-    return this.setState({ isOpen: true });
+    return this.setState({ isOpen: true, leadDetails: item });
   };
+
   initModal = () => {
     return this.setState({ isOpen: false });
   };
@@ -35,18 +44,39 @@ export default class GenericTable extends Component {
   };
 
   alertDetails = () => {
-    this.setState({ notify: true });
+    const { leadDetails, notify } = this.state;
+	const { tableData, dataFor } = this.props;
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        washerman_id: 0,
+        lead_id: leadDetails && leadDetails.lead_id,
+      }),
+    };
+    fetch("api/Admin/AssignLead", requestOptions)
+      .then((response) => response.json())
+      .then((data) => this.setState({ driverAssigned: data, notify: true }));
+	notify && dataFor == "Leads" && fetch('https://randomuser.me/api/')
+	.then(({ results }) => this.setState({ tableData: results }));
   };
 
   assignLead = () => {
+    console.log("Add new driver", this.state);
     this.initModal();
     this.alertDetails();
   };
 
   render() {
     const { tableData, dataFor } = this.props;
-    const { isOpen, notify, driverList } = this.state;
-    console.log("Generic Table Props", this.state, tableData, dataFor);
+    const { isOpen, notify, driverList, driverAssigned } = this.state;
+    console.log(
+      "Generic Table Props",
+      this.state,
+      tableData,
+      dataFor,
+      driverAssigned
+    );
     return (
       <div>
         {notify && (
@@ -62,6 +92,7 @@ export default class GenericTable extends Component {
             </Alert>
           </Stack>
         )}
+
         <table className="table table-hover text-nowrap">
           <thead>
             {dataFor === "Leads" && (
@@ -127,10 +158,11 @@ export default class GenericTable extends Component {
                   {dataFor === "Leads" && (
                     <td>
                       <button
-                        className="btn btn-info"
+                        className= {item.is_assigned ? "btn btn-danger" : "btn btn-info"}
                         onClick={this.togglePopup}
+                        disabled={item.is_assigned}
                       >
-                        Assign
+                        {item.is_assigned ? "Assigned" : "Assign"}
                       </button>
                     </td>
                   )}
@@ -224,9 +256,12 @@ export default class GenericTable extends Component {
                     onChange={this.handleSelect}
                   >
                     <option selected="selected">--Select--</option>
-                    {driverList.map((driver) => (
-                      <option>{driver.first_name} {driver.last_name}</option>
-                    ))}
+                    {driverList &&
+                      driverList.map((driver) => (
+                        <option>
+                          {driver.first_name} {driver.last_name}
+                        </option>
+                      ))}
                   </select>
                 </div>
               </div>
@@ -239,7 +274,11 @@ export default class GenericTable extends Component {
               <Button variant="danger" onClick={this.initModal}>
                 Close
               </Button>
-              <Button variant="dark" onClick={this.assignLead}>
+              <Button
+                variant="dark"
+                onClick={this.assignLead}
+                disabled={this.state && !this.state.value}
+              >
                 Assign
               </Button>
             </Modal.Footer>

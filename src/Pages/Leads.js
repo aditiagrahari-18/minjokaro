@@ -4,57 +4,19 @@ import Pagination from "./Pagination";
 import GenericTable from "../Table/GenericTable";
 
 const Leads = () => {
-	const [leadsDetails, setleadsDetails] = useState();
-  
-	useEffect(() => {
-	  const fetchData = async () => {
-		const result = await fetch("api/Admin/GetAllLeads");
-		result.json().then((data) => {
-		  console.log(data);
-		  setleadsDetails(data)
-		});
-	  };
-	  fetchData();
-	}, [leadsDetails]);
- 
-  // const drivers = [
-  //   {
-  //     id: 1,
-  //     name: "Ashish",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  //   {
-  //     id: 2,
-  //     name: "Nilesh",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  //   {
-  //     id: 3,
-  //     name: "Suhaan",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  //   {
-  //     id: 4,
-  //     name: "Yogesh",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  //   {
-  //     id: 5,
-  //     name: "Rihit",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  //   {
-  //     id: 6,
-  //     name: "Anubhav",
-  //     email: "email@gmail.com",
-  //     contact_number: "0898988989",
-  //   },
-  // ];
+  const [leadsDetails, setleadsDetails] = useState();
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetch("api/Admin/GetAllLeads");
+      result.json().then((data) => {
+        console.log(data);
+        setleadsDetails(data);
+      });
+    };
+    fetchData();
+  }, []);
+
   return (
     <div>
       <CommonLayOut
@@ -69,7 +31,7 @@ const Leads = () => {
                       <div className="card-header">
                         <h3 className="card-title">
                           New Leads:{" "}
-                          <span className="badge badge-info right">4</span>
+                          <span className="badge badge-info right">2</span>
                         </h3>
                         <div className="card-tools">
                           <button
@@ -81,14 +43,14 @@ const Leads = () => {
                           </button>
                         </div>
                       </div>
-                      {leadsDetails && <div className="card-body table-responsive p-0">
-                        <GenericTable
-                          tableData={leadsDetails}
-                          dataFor="Leads"
-                        //   drivers={drivers}
-                        />
-                       
-                      </div>}
+                      {leadsDetails && (
+                        <div className="card-body table-responsive p-0">
+                          <GenericTable
+                            tableData={leadsDetails}
+                            dataFor="Leads"
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -100,6 +62,5 @@ const Leads = () => {
     </div>
   );
 };
-
 
 export default Leads;

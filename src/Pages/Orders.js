@@ -14,7 +14,7 @@ const Orders = () => {
       });
     };
     fetchData();
-  }, [driversDetails]);
+  }, []);
   return (
     <div>
       <CommonLayOut

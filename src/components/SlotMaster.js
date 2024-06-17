@@ -14,7 +14,7 @@ const SlotMaster = () => {
       });
     };
     fetchData();
-  }, [slotMasterDetails]);
+  }, []);
   return (
     <div>
       <CommonLayOut

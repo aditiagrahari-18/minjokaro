@@ -16,7 +16,7 @@ const Drivers = () => {
       });
     };
     fetchData();
-  }, [driverssDetails]);
+  }, []);
   return (
     <div>
       <CommonLayOut

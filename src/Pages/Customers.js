@@ -14,7 +14,7 @@ const Customers = () => {
       });
     };
     fetchData();
-  }, [customersDetails]);
+  }, []);
 
   return (
     <div>
