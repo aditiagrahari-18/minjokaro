@@ -5,12 +5,12 @@ import GenericTable from "../Table/GenericTable";
 
 const Leads = () => {
   const [leadsDetails, setleadsDetails] = useState();
-
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("api/Admin/GetAllLeads");
+      const result = await fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/GetAllLeads"
+      );
       result.json().then((data) => {
-        console.log(data);
         setleadsDetails(data);
       });
     };
@@ -30,8 +30,8 @@ const Leads = () => {
                     <div className="card card-info">
                       <div className="card-header">
                         <h3 className="card-title">
-                          New Leads:{" "}
-                          <span className="badge badge-info right">2</span>
+                          Leads
+                          {/* <span className="badge badge-info right">{newLeadCount && newLeadCount.new_lead_count}</span> */}
                         </h3>
                         <div className="card-tools">
                           <button
@@ -46,6 +46,7 @@ const Leads = () => {
                       {leadsDetails && (
                         <div className="card-body table-responsive p-0">
                           <GenericTable
+                            parent={this}
                             tableData={leadsDetails}
                             dataFor="Leads"
                           />

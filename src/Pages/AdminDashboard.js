@@ -4,13 +4,15 @@ import { Link } from "react-router-dom";
 
 const AdminDashboard = () => {
   const [dashboardDetails, setdashboardDetails] = useState();
-  
+
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("api/Admin/GetDashBoardTotal");
+      const result = await fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/GetDashBoardTotal"
+      );
       result.json().then((data) => {
         console.log(data);
-		setdashboardDetails(data)
+        setdashboardDetails(data);
       });
     };
     fetchData();
@@ -44,7 +46,9 @@ const AdminDashboard = () => {
                   <div className="col-lg-2 col-6">
                     <div className="small-box bg-info">
                       <div className="inner">
-                        <h3>{dashboardDetails && dashboardDetails.total_lead}</h3>
+                        <h3>
+                          {dashboardDetails && dashboardDetails.total_lead}
+                        </h3>
                         <p>Leads</p>
                       </div>
                       <div className="icon">
@@ -58,7 +62,9 @@ const AdminDashboard = () => {
                   <div className="col-lg-2 col-6">
                     <div className="small-box bg-success">
                       <div className="inner">
-					  <h3>{dashboardDetails && dashboardDetails.total_customers}</h3>
+                        <h3>
+                          {dashboardDetails && dashboardDetails.total_customers}
+                        </h3>
                         <p>Customers</p>
                       </div>
                       <div className="icon">
@@ -72,7 +78,9 @@ const AdminDashboard = () => {
                   <div className="col-lg-2 col-6">
                     <div className="small-box bg-warning">
                       <div className="inner">
-					  <h3>{dashboardDetails && dashboardDetails.total_washermen}</h3>
+                        <h3>
+                          {dashboardDetails && dashboardDetails.total_washermen}
+                        </h3>
                         <p>Washer Man</p>
                       </div>
                       <div className="icon">
@@ -86,7 +94,9 @@ const AdminDashboard = () => {
                   <div className="col-lg-2 col-6">
                     <div className="small-box bg-danger">
                       <div className="inner">
-					  <h3>{dashboardDetails && dashboardDetails.total_slot}</h3>
+                        <h3>
+                          {dashboardDetails && dashboardDetails.total_slot}
+                        </h3>
                         <p>Slot Master</p>
                       </div>
                       <div className="icon">
@@ -100,7 +110,9 @@ const AdminDashboard = () => {
                   <div className="col-lg-2 col-6">
                     <div className="small-box bg-info">
                       <div className="inner">
-					  <h3>{dashboardDetails && dashboardDetails.total_orders}</h3>
+                        <h3>
+                          {dashboardDetails && dashboardDetails.total_orders}
+                        </h3>
                         <p>Orders</p>
                       </div>
                       <div className="icon">

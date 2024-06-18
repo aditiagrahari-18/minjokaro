@@ -9,30 +9,35 @@ export default class GenericTable extends Component {
     this.state = {
       isOpen: false,
       notify: false,
-      value: null,
+      assigingWasherMan: null,
       leadDetails: null,
       driverList: null,
+      selectedLeadId: null,
+      setError: null,
     };
   }
 
-  componentDidMount() {
-    const { leadDetails } = this.state;
+  getUnassignedLeads(leadId) {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         washerman_id: 0,
-        lead_id: leadDetails && leadDetails.lead_id,
+        lead_id: leadId,
       }),
     };
-    fetch("api/Admin/GetUnassignedWaherman", requestOptions)
+    fetch(
+      process.env.REACT_APP_API_URL + "api/Admin/GetUnassignedWaherman",
+      requestOptions
+    )
       .then((response) => response.json())
-      .then((data) => this.setState({ driverList: data }));
+      .then((data) =>
+        this.setState({ driverList: data, selectedLeadId: leadId })
+      );
   }
 
-  togglePopup = (item) => {
-    console.log("togglePopup", item);
-    return this.setState({ isOpen: true, leadDetails: item });
+  togglePopup = () => {
+    return this.setState({ isOpen: true });
   };
 
   initModal = () => {
@@ -40,43 +45,44 @@ export default class GenericTable extends Component {
   };
 
   handleSelect = (event) => {
-    return this.setState({ value: event.target.value });
+    return this.setState({ assigingWasherMan: event.target.value });
   };
 
   alertDetails = () => {
-    const { leadDetails, notify } = this.state;
-	const { tableData, dataFor } = this.props;
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        washerman_id: 0,
-        lead_id: leadDetails && leadDetails.lead_id,
-      }),
-    };
-    fetch("api/Admin/AssignLead", requestOptions)
-      .then((response) => response.json())
-      .then((data) => this.setState({ driverAssigned: data, notify: true }));
-	notify && dataFor == "Leads" && fetch('https://randomuser.me/api/')
-	.then(({ results }) => this.setState({ tableData: results }));
+    const { selectedLeadId } = this.state;
+    const { dataFor } = this.props;
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          washerman_id: 0,
+          lead_id: selectedLeadId && selectedLeadId,
+        }),
+      };
+      fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/AssignLead",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          this.setState({ notify: true });
+          data && dataFor == "Leads" && window.location.reload(true);
+        });
+    } catch (error) {
+      this.setState({ setError: "An error occurred. Please try again later." });
+    }
   };
 
   assignLead = () => {
-    console.log("Add new driver", this.state);
     this.initModal();
     this.alertDetails();
   };
 
   render() {
     const { tableData, dataFor } = this.props;
-    const { isOpen, notify, driverList, driverAssigned } = this.state;
-    console.log(
-      "Generic Table Props",
-      this.state,
-      tableData,
-      dataFor,
-      driverAssigned
-    );
+    const { isOpen, notify, driverList } = this.state;
+    console.log("Generic Table Props", this.state, this.props);
     return (
       <div>
         {notify && (
@@ -98,8 +104,9 @@ export default class GenericTable extends Component {
             {dataFor === "Leads" && (
               <tr>
                 <th>ID</th>
-                <th>Name</th>
+                <th>Customer Name</th>
                 <th>Slot Time</th>
+                <th>Lead Date</th>
                 <th>Close Date</th>
               </tr>
             )}
@@ -154,12 +161,18 @@ export default class GenericTable extends Component {
                   <td>{item.lead_id}</td>
                   <td>{item.full_name}</td>
                   <td>{item.lead_time_slot}</td>
+                  <td>{item.lead_date}</td>
                   <td>{item.lead_close_date}</td>
                   {dataFor === "Leads" && (
                     <td>
                       <button
-                        className= {item.is_assigned ? "btn btn-danger" : "btn btn-info"}
-                        onClick={this.togglePopup}
+                        className={
+                          item.is_assigned ? "btn btn-danger" : "btn btn-info"
+                        }
+                        onClick={() => {
+                          this.getUnassignedLeads(item.lead_id);
+                          this.togglePopup();
+                        }}
                         disabled={item.is_assigned}
                       >
                         {item.is_assigned ? "Assigned" : "Assign"}
@@ -277,7 +290,7 @@ export default class GenericTable extends Component {
               <Button
                 variant="dark"
                 onClick={this.assignLead}
-                disabled={this.state && !this.state.value}
+                disabled={this.state && !this.state.assigingWasherMan}
               >
                 Assign
               </Button>

@@ -1,43 +1,66 @@
+
 import React, { useState } from "react";
 import CommonLayOut from "../components/CommonLayOut";
 
 function AddNewDriver() {
 	const [formData, setFormData] = useState({
-		username: null,
+		user_name: null,
 		password: null,
 		confirmPassword: null,
-		contactNumber: null,
-		address: null,
+		contact_number: null,
+		address_1: null,
+		fullname: null,
 		// panNumber: null,
-		// aadharNumber: null,
+		aadhar_number: null
 	});
 
 	const [errors, setErrors] = useState({});
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		console.log(name);
+		console.log(value);
 		setFormData({
 			...formData,
 			[name]: value,
 		});
+		validateForm(formData)
+		
 	};
 
-	const handleSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		const validationErrors = validateForm(formData);
 		if (Object.keys(validationErrors).length === 0) {
 			// Form submission logic here
 			console.log("Form submitted successfully!");
+			// const result = fetch(process.env.REACT_APP_API_URL+"api/Admin/GetAllLeads");
+      // result.json().then((data) => {
+      //   console.log(data);
+      // });
+
+			const response = await fetch(process.env.REACT_APP_API_URL+"api/Admin/AddWasherman", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const result = await response.json();
+			alert("User added successfully.");
 		} else {
 			setErrors(validationErrors);
 		}
 	};
 
 	const validateForm = (data) => {
-		console.log("validateForm data", data);
+		console.log("validateForm data", data, data.user_name);
 		let errors = {};
 
-		if (!data.username) {
+		if (!data.user_name) {
 			errors.username = "Username is required";
 		}
 
@@ -49,10 +72,11 @@ function AddNewDriver() {
 			errors.confirmPassword = "Passwords do not match";
 		}
 
-		if (!data.contactNumber) {
+		if (!data.contact_number) {
 			errors.contactNumber = "Contact Number is required";
 		}
-		if (!data.address) {
+
+		if (!data.address_1) {
 			errors.address = "Your Address is required";
 		}
 
@@ -60,9 +84,9 @@ function AddNewDriver() {
 		// 	errors.panNumber = "PAN is required";
 		// }
 
-		// if (!data.aadharNumber) {
-		// 	errors.aadharNumber = "Aadhaar Number is required";
-		// }
+		if (!data.aadhar_number) {
+			errors.aadharNumber = "Aadhaar Number is required";
+		}
 
 		return errors;
 	};
@@ -100,8 +124,9 @@ function AddNewDriver() {
 																className="form-control"
 																id="exampleInput"
 																placeholder="Enter Username"
-																value={formData.username}
+																value={formData.user_name}
 																onChange={handleChange}
+																name="user_name"
 															/>
 															{errors.username && (
 																<span className="danger">
@@ -120,6 +145,7 @@ function AddNewDriver() {
 																placeholder="Password"
 																value={formData.password}
 																onChange={handleChange}
+																name="password"
 															/>
 															{errors.password && (
 																<span className="danger">
@@ -138,6 +164,7 @@ function AddNewDriver() {
 																placeholder="Confirm Password"
 																value={formData.confirmPassword}
 																onChange={handleChange}
+																name="confirmPassword"
 															/>
 															{errors.confirmPassword && (
 																<span className="danger">
@@ -145,6 +172,27 @@ function AddNewDriver() {
 																</span>
 															)}
 														</div>
+
+														<div className="form-group">
+															<label htmlFor="exampleInput">
+																Fullname
+															</label>
+															<input
+																type="text"
+																className="form-control"
+																id="fullName"
+																placeholder="Enter fullname"
+																value={formData.fullname}
+																onChange={handleChange}
+																name="fullname"
+															/>
+															{errors.contactNumber && (
+																<span className="danger">
+																	{errors.contactNumber}
+																</span>
+															)}
+														</div>
+
 														<div className="form-group">
 															<label htmlFor="exampleInput">
 																Contact Number
@@ -154,8 +202,9 @@ function AddNewDriver() {
 																className="form-control"
 																id="contactNumber"
 																placeholder="Enter Contact Number"
-																value={formData.contactNumber}
+																value={formData.contact_number}
 																onChange={handleChange}
+																name="contact_number"
 															/>
 															{errors.contactNumber && (
 																<span className="danger">
@@ -170,29 +219,15 @@ function AddNewDriver() {
 																className="form-control"
 																id="address"
 																placeholder="Enter Your Full Address"
-																value={formData.address}
+																value={formData.address_1}
 																onChange={handleChange}
+																name="address_1"
 															/>
 															{errors.address && (
 																<span className="danger">{errors.address}</span>
 															)}
 														</div>
-														<div className="form-group">
-															<label htmlFor="exampleInput">PAN Number</label>
-															<input
-																type="text"
-																className="form-control"
-																id="panNumber"
-																placeholder="Enter Your Pan Number"
-																value={formData.panNumber}
-																onChange={handleChange}
-															/>
-															{/* {errors.panNumber && (
-																<span className="danger">
-																	{errors.panNumber}
-																</span>
-															)} */}
-														</div>
+														
 														<div className="form-group">
 															<label htmlFor="exampleInput">
 																Aadhaar Number
@@ -202,8 +237,9 @@ function AddNewDriver() {
 																className="form-control"
 																id="aadharNumber"
 																placeholder="Enter Your Aadhaar Number"
-																value={formData.aadharNumber}
+																value={formData.aadhar_number}
 																onChange={handleChange}
+																name="aadhar_number"
 															/>
 															{/* {errors.aadharNumber && (
 																<span className="danger">

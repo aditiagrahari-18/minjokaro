@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "https://minzokaro.azurewebsites.net/",
   "dependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "7.21.11",
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.0",
     "@fontsource/roboto": "^5.0.12",
@@ -19,8 +20,7 @@
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.22.2",
     "react-scripts": "5.0.1",
-    "web-vitals": "^2.1.4",
-    "@babel/plugin-proposal-private-property-in-object": "7.21.11"    
+    "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -9,9 +9,10 @@ const Drivers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("api/Admin/GetWashermanList");
+      const result = await fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/GetWashermanList"
+      );
       result.json().then((data) => {
-        console.log(data);
         setDriverssDetails(data);
       });
     };

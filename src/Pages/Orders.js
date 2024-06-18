@@ -7,9 +7,10 @@ const Orders = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("api/Admin/GetAllOrders");
+      const result = await fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/GetAllOrders"
+      );
       result.json().then((data) => {
-        console.log(data);
         setDriversDetails(data);
       });
     };

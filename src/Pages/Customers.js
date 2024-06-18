@@ -7,9 +7,10 @@ const Customers = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await fetch("api/Admin/GetCustomerList");
+      const result = await fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/GetCustomerList"
+      );
       result.json().then((data) => {
-        console.log(data);
         setCustomersDetails(data);
       });
     };
