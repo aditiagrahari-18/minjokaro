@@ -1,4 +1,3 @@
- 
 import React, { Component, PropTypes, useEffect, useState } from "react";
 import CommonLayOut from "./CommonLayOut";
 import GenericTable from "../Table/GenericTable";
@@ -7,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 const SlotMaster = () => {
   const [slotMasterDetails, setSlotMasterDetails] = useState();
+  const [errors, setErrors] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formValues, setFormValues] = useState({
     slot_time_from: "",
@@ -22,7 +22,6 @@ const SlotMaster = () => {
     result.json().then((data) => {
       console.log(data);
       setSlotMasterDetails(data);
-	  
     });
   };
   useEffect(() => {
@@ -36,6 +35,12 @@ const SlotMaster = () => {
   const closeModal = () => {
     setIsModalOpen(false);
   };
+  const showAlert = () => {
+    setShowSuccessAlert(true);
+  };
+  const closeAlert = () => {
+    setShowSuccessAlert(false);
+  };
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -48,32 +53,50 @@ const SlotMaster = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(
-        process.env.REACT_APP_API_URL + "api/Admin/AddSlot",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formValues),
+      const validationErrors = validateForm(formValues);
+      if (Object.keys(validationErrors).length === 0) {
+        const response = await fetch(
+          process.env.REACT_APP_API_URL + "api/Admin/AddSlot",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formValues),
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
         }
-      );
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const result = await response.json();
+        console.log("Form submitted successfully:", result);
+        fetchData();
+        closeModal(); // Close the modal on successful submission
+        showAlert(); // Show the success alert
+      } else {
+        setErrors(validationErrors);
       }
-      const result = await response.json();
-      console.log("Form submitted successfully:", result);
-      setIsModalOpen(false); // Close the modal on successful submission
-      setShowSuccessAlert(true); // Show the success alert
-      // Hide the success alert after 3 seconds
-      setTimeout(() => {
-        setShowSuccessAlert(false);
-      }, 3000);
-      fetchData();
-	  result && window.location.reload(true)
     } catch (error) {
       console.error("There was a problem with the fetch operation:", error);
     }
+  };
+
+  const validateForm = (data) => {
+    console.log("validateForm data", data);
+    let errors = {};
+    if (!data.slot_time_from) {
+      errors.slot_time_from = "Required";
+    }
+    if (!data.slot_ampm_from) {
+      errors.slot_ampm_from = "Required";
+    }
+    if (!data.slot_time_to) {
+      errors.slot_time_to = "Required";
+    }
+    if (!data.slot_ampm_to) {
+      errors.slot_ampm_to = "Required";
+    }
+    return errors;
   };
 
   return (
@@ -100,8 +123,8 @@ const SlotMaster = () => {
                         <div className="card-tools">
                           <button
                             type="button"
-                            className="btn btn-tool btn-success"
-                            data-card-widget="collapse"
+                            className="btn btn-tool btn-danger"
+                            // data-card-widget="collapse"
                             onClick={openModal}
                           >
                             Add Slot
@@ -109,16 +132,6 @@ const SlotMaster = () => {
                         </div>
                       </div>
                       <div className="card-body table-responsive p-0">
-                        {showSuccessAlert && (
-                          <Alert
-                            variant="success"
-                            onClose={() => setShowSuccessAlert(false)}
-                            dismissible
-                          >
-                            Slot added successfully!
-                          </Alert>
-                        )}
-
                         {slotMasterDetails && (
                           <div className="card-body table-responsive p-0">
                             <GenericTable
@@ -170,6 +183,11 @@ const SlotMaster = () => {
                       <option value="11">11</option>
                       <option value="12">12</option>
                     </Form.Control>
+                    {!formValues.slot_time_from && (
+                      <Form.Label className="danger">
+                        {errors.slot_time_from}{" "}
+                      </Form.Label>
+                    )}
                   </Form.Group>
                 </Col>
 
@@ -188,6 +206,11 @@ const SlotMaster = () => {
                       <option value="AM">AM</option>
                       <option value="PM">PM</option>
                     </Form.Control>
+                    {!formValues.slot_ampm_from && (
+                      <Form.Label className="danger">
+                        {errors.slot_ampm_from}{" "}
+                      </Form.Label>
+                    )}
                   </Form.Group>
                 </Col>
               </Row>
@@ -218,6 +241,11 @@ const SlotMaster = () => {
                       <option value="11">11</option>
                       <option value="12">12</option>
                     </Form.Control>
+                    {!formValues.slot_time_to && (
+                      <Form.Label className="danger">
+                        {errors.slot_time_to}{" "}
+                      </Form.Label>
+                    )}
                   </Form.Group>
                 </Col>
 
@@ -236,6 +264,11 @@ const SlotMaster = () => {
                       <option value="AM">AM</option>
                       <option value="PM">PM</option>
                     </Form.Control>
+                    {!formValues.slot_ampm_to && (
+                      <Form.Label className="danger">
+                        {errors.slot_ampm_to}{" "}
+                      </Form.Label>
+                    )}
                   </Form.Group>
                 </Col>
               </Row>
@@ -249,6 +282,20 @@ const SlotMaster = () => {
               </Button>
             </Modal.Footer>
           </Form>
+        </Modal>
+      )}
+
+      {showSuccessAlert && (
+        <Modal show={showSuccessAlert}>
+          <Modal.Header closeButton onClick={closeAlert}>
+            <Modal.Title>Congrats!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>Slot added successfully</Modal.Body>
+          <Modal.Footer>
+            <Button variant="danger" onClick={closeAlert}>
+              CLose
+            </Button>
+          </Modal.Footer>
         </Modal>
       )}
     </div>

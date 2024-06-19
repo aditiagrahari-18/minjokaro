@@ -82,7 +82,7 @@ export default class GenericTable extends Component {
   render() {
     const { tableData, dataFor } = this.props;
     const { isOpen, notify, driverList } = this.state;
-    console.log("Generic Table Props", this.state, this.props);
+    console.log("Generic Table Props", this.state, this.props, tableData);
     return (
       <div>
         {notify && (
