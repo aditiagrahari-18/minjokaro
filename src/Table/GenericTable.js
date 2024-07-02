@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Modal, Button } from "react-bootstrap";
 import Alert from "@mui/material/Alert";
 import Stack from "@mui/material/Stack";
+import { Navigate } from "react-router-dom";
 
 export default class GenericTable extends Component {
   constructor(props) {
@@ -14,8 +15,14 @@ export default class GenericTable extends Component {
       driverList: null,
       selectedLeadId: null,
       setError: null,
+      slotID: null,
+      washermanID: null,
+      SlotStatusUpdateModelConfimation: false,
+      alertConfirmationForRemoveDriver: false,
+      redirectToAddDriverPage: null,
     };
   }
+  // Leads Related Codes
 
   getUnassignedLeads(leadId) {
     const requestOptions = {
@@ -43,11 +50,9 @@ export default class GenericTable extends Component {
   initModal = () => {
     return this.setState({ isOpen: false });
   };
-
   handleSelect = (event) => {
     return this.setState({ assigingWasherMan: event.target.value });
   };
-
   alertDetails = () => {
     const { selectedLeadId } = this.state;
     const { dataFor } = this.props;
@@ -56,7 +61,6 @@ export default class GenericTable extends Component {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          washerman_id: 0,
           lead_id: selectedLeadId && selectedLeadId,
         }),
       };
@@ -78,10 +82,111 @@ export default class GenericTable extends Component {
     this.initModal();
     this.alertDetails();
   };
+  // End Leads Code
+
+  // Slot Master Related Codes
+  toggleSlotStatusUpdateModelConfimation = () => {
+    return this.setState({ SlotStatusUpdateModelConfimation: true });
+  };
+
+  initSlotStatusUpdateModelConfimation = () => {
+    return this.setState({ SlotStatusUpdateModelConfimation: false });
+  };
+
+  updateSlotID(slot_id) {
+    this.setState({ slotID: slot_id });
+  }
+  removeSlot = () => {
+    this.initSlotStatusUpdateModelConfimation();
+    this.removeSlotFn();
+  };
+
+  removeSlotFn = () => {
+    const { slotID } = this.state;
+    const { dataFor } = this.props;
+
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          slot_id: slotID && slotID,
+        }),
+      };
+      fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/UpdateSlotStatus",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          data && dataFor == "SlotMaster" && alert(data);
+        });
+    } catch (error) {
+      this.setState({ setError: "An error occurred. Please try again later." });
+    }
+  };
+  // End Slot Master Codes
+
+  // Driver Related Codes
+  updateDriverID(washerman_id) {
+    this.setState({ washermanID: washerman_id });
+  }
+  // Edit Functinality  of a driver details
+  editDriverDetails = (driver_details) => {
+    console.log("edit driver", driver_details);
+    this.setState({ redirectToAddDriverPage: driver_details });
+  };
+
+  // Remove Functinality for a driver
+  remveDriverModal = () => {
+    console.log("remove driver_id");
+    return this.setState({ alertConfirmationForRemoveDriver: true });
+  };
+  initalertConfirmationForRemoveDriver = () => {
+    return this.setState({ alertConfirmationForRemoveDriver: false });
+  };
+  removeDriver = () => {
+    this.initalertConfirmationForRemoveDriver();
+    this.removeDriverFn();
+  };
+
+  removeDriverFn = () => {
+    const { washermanID } = this.state;
+    const { dataFor } = this.props;
+    console.log("removeDriverFn", washermanID, this.state);
+    try {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          washerman_id: washermanID && washermanID,
+        }),
+      };
+      fetch(
+        process.env.REACT_APP_API_URL + "api/Admin/UpdateWashermanStatus",
+        requestOptions
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          data && dataFor === "Drivers" && window.location.reload(true);
+        });
+    } catch (error) {
+      this.setState({ setError: "An error occurred. Please try again later." });
+    }
+  };
+  // End Drivers Codes
 
   render() {
     const { tableData, dataFor } = this.props;
-    const { isOpen, notify, driverList } = this.state;
+    const {
+      isOpen,
+      notify,
+      driverList,
+      SlotStatusUpdateModelConfimation,
+      alertConfirmationForRemoveDriver,
+      redirectToAddDriverPage,
+      slotID,
+    } = this.state;
     console.log("Generic Table Props", this.state, this.props, tableData);
     return (
       <div>
@@ -120,21 +225,24 @@ export default class GenericTable extends Component {
             )}
             {dataFor === "Drivers" && (
               <tr>
-                <th>Name</th>
-                <th>Email</th>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>UserName</th>
+                <th>Password</th>
                 <th>Address</th>
                 <th>Aadhar Number</th>
                 <th>Contact Number</th>
-                <th>Pin Code</th>
                 <th>Active</th>
+                
+                {/* <th></th> */}
               </tr>
             )}
             {dataFor === "SlotMaster" && (
               <tr>
-                <th>Slot Order</th>
                 <th>Slot Time</th>
                 <th>Created Date</th>
                 <th>Active</th>
+                <th>Action</th>
               </tr>
             )}
             {dataFor === "Orders" && (
@@ -200,21 +308,39 @@ export default class GenericTable extends Component {
             {dataFor === "Drivers" &&
               tableData &&
               tableData.map((item) => (
-                <tr key={item.driver_id}>
-                  <td>
-                    {item.first_name} {item.last_name}{" "}
-                  </td>
-                  <td>{item.email}</td>
+                <tr key={item.washerman_id}>
+                  <td>{item.washerman_id}</td>
+                  <td>{item.fullname}</td>
+                  <td>{item.user_name}</td>
+                  <td>{item.password}</td>
                   <td>{item.address_1}</td>
                   <td>{item.aadhar_number}</td>
                   <td>{item.contact_number}</td>
-                  <td>{item.pincode}</td>
                   <td>
                     {item.is_active === true
                       ? "Yes"
                       : item.is_active === false
                       ? "No"
                       : ""}
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        this.editDriverDetails(item);
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </td>
+                  <td>
+                    <Button
+                      onClick={() => {
+                        this.updateDriverID(item.washerman_id);
+                        this.remveDriverModal();
+                      }}
+                    >
+                      Remove
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -223,7 +349,6 @@ export default class GenericTable extends Component {
               tableData &&
               tableData.map((item) => (
                 <tr key={item.slot_id}>
-                  <td>{item.sort_order}</td>
                   <td>{item.slot}</td>
                   <td>{item.created_date}</td>
                   <td>
@@ -232,6 +357,24 @@ export default class GenericTable extends Component {
                       : item.is_active === false
                       ? "No"
                       : ""}
+                  </td>
+
+                  <td>
+                    {item.is_active === true ? (
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => {
+                          this.updateSlotID(item.slot_id);
+                          this.toggleSlotStatusUpdateModelConfimation();
+                        }}
+                      >
+                        Remove
+                      </button>
+                    ) : item.is_active === false ? (
+                      "No"
+                    ) : (
+                      ""
+                    )}
                   </td>
                 </tr>
               ))}
@@ -272,7 +415,7 @@ export default class GenericTable extends Component {
                     {driverList &&
                       driverList.map((driver) => (
                         <option>
-                          {driver.first_name} {driver.last_name}
+                          {driver.fullname}
                         </option>
                       ))}
                   </select>
@@ -296,6 +439,69 @@ export default class GenericTable extends Component {
               </Button>
             </Modal.Footer>
           </Modal>
+        )}
+
+        {SlotStatusUpdateModelConfimation && (
+          <Modal show={SlotStatusUpdateModelConfimation}>
+            <Modal.Header
+              closeButton
+              onClick={this.initSlotStatusUpdateModelConfimation}
+            >
+              <Modal.Title>Remove Slot</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <strong>
+                Are you sure want to remove? Please click on button below
+              </strong>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="danger"
+                onClick={this.initSlotStatusUpdateModelConfimation}
+              >
+                Close
+              </Button>
+              <Button variant="dark" onClick={this.removeSlot}>
+                Remove
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+        {alertConfirmationForRemoveDriver && (
+          <Modal show={alertConfirmationForRemoveDriver}>
+            <Modal.Header
+              closeButton
+              onClick={this.initalertConfirmationForRemoveDriver}
+            >
+              <Modal.Title>Remove Slot</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <strong>
+                Are you sure want to remove? Please click on button below
+              </strong>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button
+                variant="danger"
+                onClick={this.initalertConfirmationForRemoveDriver}
+              >
+                No
+              </Button>
+              <Button variant="dark" onClick={this.removeDriver}>
+                Yes
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        )}
+
+        {redirectToAddDriverPage && (
+         <Navigate 
+          to="/addnewdriver"
+          state={{
+            from: 'GenericTable',
+            driverDetails: redirectToAddDriverPage
+          }}
+           />
         )}
       </div>
     );

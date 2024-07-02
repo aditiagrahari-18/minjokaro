@@ -293,7 +293,7 @@ const SlotMaster = () => {
           <Modal.Body>Slot added successfully</Modal.Body>
           <Modal.Footer>
             <Button variant="danger" onClick={closeAlert}>
-              CLose
+              Close
             </Button>
           </Modal.Footer>
         </Modal>
